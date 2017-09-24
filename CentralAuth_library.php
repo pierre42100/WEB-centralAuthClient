@@ -89,6 +89,39 @@ class CentralAuthClient {
 	}
 
 	/**
+	 * Retrieve informations about a user on the Central Auth Server
+	 *
+	 * @param string $login_ticket The login ticket
+	 * @param string $authorization_token The authorization token
+	 * @return array The result
+	 * * error : This array entry is included when an error occured
+	 */
+	public function get_user_infos(string $login_ticket, string $authorization_token) : array {
+
+		//Perform a request on the server
+		$params = array(
+			"login_ticket" => $login_ticket,
+			"authorization_token" => $authorization_token,
+		);
+		$result = $this->post_request("get_user_infos", $params);
+		
+		//Check for errors
+		if($result['response_code'] !== 200 || isset($result['error']))
+			return array("error" => "cURL request: ".$result['response_code']);
+
+		//Check result response
+		if(!isset($result['response']['user_infos']))
+			return array("error" => "Unexcepted response from server !");
+
+		//Return parsed result
+		return array(
+			"id" => $result['response']['user_infos']['id'],
+			"name" => $result['response']['user_infos']['name'],
+			"mail" => $result['response']['user_infos']['mail'],
+		);
+	}
+
+	/**
 	 * Perform a POST request on the Central Auth Server
 	 *
 	 * @param string $uri The URI on the server of the request
