@@ -70,9 +70,21 @@ class CentralAuthClient {
 
 		//Check for errors
 		if($result['response_code'] !== 200 || isset($result['error']))
-			return array("error" => $result['response_code']);
+			return array("error" => "cURL request: ".$result['response_code']);
 
-		print_r($result);
+		//Extract response
+		$response = $result['response'];
+		unset($result);
+
+		//Check if response include the required informations
+		if(!isset($response['login_ticket']) OR !isset($response['login_url']))
+			return array("error" => "Invalid response !");
+
+		//Return informations about the login ticket
+		return array(
+			"login_ticket" => $response['login_ticket'],
+			"login_url" => $response['login_url']
+		);
 
 	}
 
