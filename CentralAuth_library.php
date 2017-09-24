@@ -1,6 +1,6 @@
 <?php
 /**
- * Central auth client library3
+ * Central auth client library
  *
  * This client is made to work with the first version
  * of the API (V1)
