@@ -15,9 +15,9 @@ if(!isset($_SESSION['user'])){
 
 	//Create Central Auth client object
 	$caclient = new CentralAuthClient(
-		"http://devweb.local/centralAuth/project/",
-		"CLIENT_ID", 
-		"CLIENT_SECRET"
+		"http://devweb.local/centralAuth/project/", //The URL pointing on centralAuth Server (with end-trailing slash)
+		"CLIENT_ID", //The client ID
+		"CLIENT_SECRET" //The client secret
 	);
 
 	//Check if an old login ticket has to be deleted
